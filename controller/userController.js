@@ -7,14 +7,13 @@ var bodyParser = require('body-parser');
 //Show the list of User
 
 module.exports.userAdded=(req,res)=>{
-    console.log(req.params['name']);
+    console.log(req.body.name);
      var user=new UserModel({
-      name:req.params['name'],
-      email:req.params['phone'],
-      age:req.params['age'],
+      name:req.body.name,
+      email:req.body.email,
+      age:req.body.age,
      }
     );
-  console.log(req.params['age']);
     user.save(function(err){
       if(err){
         console.log(err);
