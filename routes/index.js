@@ -10,6 +10,8 @@ router.get('/UserAdded', ctrlUser.userAdded);
 router.get('/AllUser',ctrlUser.findAllUser);
 router.delete('/UserRemove/:id',ctrlUser.deleteUser);
 router.put('/UserUpdate/:id',ctrlUser.updateUser);
+router.post('/signup',ctrlUser.signup);
+router.post('/auth',ctrlUser.auth);
 
 
 

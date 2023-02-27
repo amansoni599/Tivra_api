@@ -2,6 +2,8 @@ const UserModel = require('../model/tivra')
 const express = require('express')
 const app = express()
 var bodyParser = require('body-parser');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 
 //Show the list of User
@@ -48,23 +50,97 @@ module.exports.deleteUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  console.log("test");
+ 
   console.log(req.body.name);
   console.log(req.params.id);
   UserModel.findOne({ _id: req.params.id },
       (err, UserModel) => {
           if (!UserModel)
-              return res.json('Could not load Vendor');
+              return res.json('Could not load user');
           else {
               UserModel.name= req.body.name;
               UserModel.save().then(UserModel => {
                   res.json(UserModel);
               })
                   .catch(err => {
-                      res.status(400).send("unable to update Vendor in the database");
+                      res.status(400).send("unable to update user in the database");
                   });
 
           }
       }
   );
+}
+
+module.exports.auth = async (req, res, next) => {
+  try {
+    UserModel.findOne({email: req.body.email},(err,user)=>{
+      if(user==null){
+  res.status(401).json("User not Found");
+      }else{
+        const token = jwt.sign(
+          { email: user.email, userId: user._id },
+          "secret_this_should_be_longer",
+          { expiresIn: "1h" }
+      );
+      console.log(token)
+      res.status(200).json({
+          token: token
+      });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+ 
+     
+};
+
+
+module.exports.signup = async (req, res, next) => {
+  //TODO create a transaction for this method...
+  //check if email is already used and send error
+console.log(req.body.email);
+console.log(req.body.password);
+  UserModel.findOne( { email: req.body.email },
+      async (err, userModel) => {
+          if (err) return res.status(400).json(err);
+          if (userModel)
+              return res.status(409).json({ status: false, message: 'User record already exists.' });
+          else {
+             let response = await createNewUser(req, res);;
+             return res; 
+          }
+      });
+};
+
+async function createNewUser(req, res) {
+  bcrypt.hash(req.body.password, 10)
+     .then  ( async (hash) =>{
+         await  createPrefWithUser(req, hash, res);
+         //return res;
+     }).catch(err => {
+          return res.status(500).json({ error:err });
+     });
+ //return res;
+}
+
+async function createPrefWithUser(req, hash, res) {
+
+  let user=UserModel({
+    email:req.body.email,
+    password:hash,
+  });
+  console.log(user);
+
+user.save(function(err){
+  if(err){
+    console.log(err);
+  }else{
+    res.status(200).json({
+      status: true,
+      message: "User created!",
+      // result: user.name
+  });
+  }
+});
 }

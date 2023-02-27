@@ -1,14 +1,18 @@
 const express = require('express'),
  bodyParser = require('body-parser');
+ const compression = require('compression')
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const graphqlHTTP = require('express-graphql').graphqlHTTP;
 const schema=require("./Schema/schema");
 var liveServer = require("live-server");
 
-
 const routes = require('./routes/index');
+
+
+
 var app = express();
+app.use(compression())
 
 // bind express with graphql
 app.use('/graphql', graphqlHTTP({
