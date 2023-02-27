@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 const _ = require('lodash');
+const users=require('../model/tivra');
 
 const { GraphQLObjectType, GraphQLString, GraphQLSchema,GraphQLList } = graphql;
 
@@ -19,6 +20,19 @@ const BookType = new GraphQLObjectType({
     })
 });
 
+
+//MongoDB Model 
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    fields: ( ) => ({
+       
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        age: { type: GraphQLString },
+        phone: { type: GraphQLString }
+    })
+});
+
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -29,22 +43,23 @@ const RootQuery = new GraphQLObjectType({
                 // code to get data from db / other source
                 return books;
             }
+        },
+
+        // user schema 
+        user: {
+            type: new GraphQLList(UserType),
+            
+            resolve(parent, args){
+                
+                return users.find({});
+            }
         }
+
     }
 });
 
-// var queryType = new GraphQLObjectType({
-//     name: 'Book',
-//     fields: () => ({
-  
-//       book: {
-//         type: new GraphQLList(book),
-//         resolve: () =>book
-//       }
-//     })
-//   });
-
 module.exports = new GraphQLSchema({
     query: RootQuery,
+
    
 });

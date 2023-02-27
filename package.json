@@ -13,6 +13,8 @@
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
+    "graphql-compose": "^9.0.10",
+    "graphql-mongoose-schemabuilder": "^1.0.10",
     "live-server": "^1.1.0",
     "lodash": "^4.17.21",
     "mongodb": "^5.0.1",
