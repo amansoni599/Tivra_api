@@ -29,7 +29,7 @@ const UserType = new GraphQLObjectType({
         name: { type: GraphQLString },
         email: { type: GraphQLString },
         age: { type: GraphQLString },
-        phone: { type: GraphQLString }
+       
     })
 });
 
