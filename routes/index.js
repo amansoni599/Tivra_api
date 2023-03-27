@@ -12,9 +12,7 @@ router.delete('/UserRemove/:id',ctrlUser.deleteUser);
 router.put('/UserUpdate/:id',ctrlUser.updateUser);
 router.post('/signup',ctrlUser.signup);
 router.post('/auth',ctrlUser.auth);
-
-
-
+router.post('/StateWithDistricts',ctrlUser.StateWithDistricts);
 
 
 module.exports=router

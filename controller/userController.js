@@ -4,6 +4,7 @@ const app = express()
 var bodyParser = require('body-parser');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const statewithcities=require("../controller/statewithcities.json");
 
 
 //Show the list of User
@@ -144,3 +145,8 @@ user.save(function(err){
   }
 });
 }
+
+module.exports.StateWithDistricts = async (req, res, next) => {
+res.status(200).json(statewithcities);
+};
+
