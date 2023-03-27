@@ -128,7 +128,16 @@ async function createNewUser(req, res) {
 async function createPrefWithUser(req, hash, res) {
 
   let user=UserModel({
+    name:req.body.name,
     email:req.body.email,
+    name:req.body.name,
+    phone:req.body.phone,
+    dob:req.body.dob,
+    city:req.body.city,
+    state:req.body.state,
+    registerLatLang:req.body.registerLatLang,
+    currentLatLang:req.body.currentLatLang,
+    emailVarification:req.body.emailVarification,
     password:hash,
   });
   console.log(user);

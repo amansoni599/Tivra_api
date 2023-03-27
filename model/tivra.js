@@ -13,11 +13,23 @@ const userSchema=new Schema({
     phone:{
         type:String
     },
-    age:{
+    dob:{
         type:String
     },
-    token:{
+    city:{
         type:String
+    },
+    state:{
+        type:String
+    },
+    registerLatLang:{
+        type:String
+    },
+    currentLatLang:{
+        type:String
+    },
+    emailVarification:{
+        type:Boolean
     },
     password:{
         type:String
